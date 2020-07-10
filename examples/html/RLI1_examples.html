@@ -1,0 +1,267 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>RLI1_examples</title><meta name="generator" content="MATLAB 9.8"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-07-10"><meta name="DC.source" content="RLI1_examples.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Example 1.1 - from MC submission 35194</a></li><li><a href="#3">Example 1.2 - from MC submission 35194 with lower tolerance and more points</a></li><li><a href="#4">Example 2.1 - gaussian pdf with randomly spaced points</a></li><li><a href="#5">Example 2.2 - gaussian pdf with randomly spaced points and random noise</a></li><li><a href="#6">Example 3.1 - digital sine wave with noise</a></li><li><a href="#7">Example 3.2 - sine wave with normal random noise</a></li></ul></div><pre class="codeinput"><span class="comment">%--------------------------------------------------------------------------</span>
+<span class="comment">% RLI1_examples.m</span>
+<span class="comment">% This runs through a number of examples demonstrating the usage of the</span>
+<span class="comment">% function reduce_linear_interp1. Please see the documentation for</span>
+<span class="comment">% reduce_linear_interp1 for more detail on the inputs. This script has</span>
+<span class="comment">% also been published.</span>
+<span class="comment">%--------------------------------------------------------------------------</span>
+<span class="comment">% Primary contributor: Daniel R. Herber (danielrherber on GitHub)</span>
+<span class="comment">% Link: https://github.com/danielrherber/reduce-linear-interp1</span>
+<span class="comment">%--------------------------------------------------------------------------</span>
+close <span class="string">all</span>; clear; clc; rng(7312947)
+</pre><h2 id="2">Example 1.1 - from MC submission 35194</h2><pre class="codeinput">X = 0:0.1:10;
+Y = 1./(X/100 + 0.01) + X.^2 - 0.1 * X.^3;
+
+tol = 0.1;
+opts.interior_optflag = true; <span class="comment">% this is the default</span>
+opts.post_optflag = true; <span class="comment">% this is the default</span>
+opts.display_flag = true; <span class="comment">% this is the default</span>
+
+[xi, yi] = reduce_linear_interp1(X,Y,tol,opts); <span class="comment">%#ok&lt;ASGLU&gt;</span>
+
+<span class="comment">% only uncomment if you have MC submission 35194 in your path</span>
+<span class="comment">% [xi35194, yi35194, mse35194] = find_best_table_1de(X, Y, [], tol, 'linear');</span>
+</pre><pre class="codeoutput">Original Data Length: 101
+   Finding reduced number of points maintaining error tolerance...
+   ...Finished!
+Reduced Length: 34
+with maximum absolute error of 0.08469
+Percentage of original size: 33.6634%
+Mean Squared Error: 0.0012427
+   Solving QP to minimize SE...
+   ...Finished!
+Percentage of Original Mean Squared Error : 58.726%
+with maximum absolute error of 0.082061
+</pre><img vspace="5" hspace="5" src="RLI1_examples_01.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_02.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_03.png" alt=""> <h2 id="3">Example 1.2 - from MC submission 35194 with lower tolerance and more points</h2><pre class="codeinput">X = 0:0.0001:10;
+Y = 1./(X/100 + 0.01) + X.^2 - 0.1 * X.^3;
+
+<span class="comment">% use default options</span>
+[xi, yi] = reduce_linear_interp1(X,Y,0.01); <span class="comment">%#ok&lt;ASGLU&gt;</span>
+</pre><pre class="codeoutput">Original Data Length: 100001
+   Finding reduced number of points maintaining error tolerance...
+   ...Finished!
+Reduced Length: 103
+with maximum absolute error of 0.0096455
+Percentage of original size: 0.103%
+Mean Squared Error: 1.381e-05
+   Solving QP to minimize SE...
+   ...Finished!
+Percentage of Original Mean Squared Error : 41.0682%
+with maximum absolute error of 0.0095993
+</pre><img vspace="5" hspace="5" src="RLI1_examples_04.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_05.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_06.png" alt=""> <h2 id="4">Example 2.1 - gaussian pdf with randomly spaced points</h2><pre class="codeinput">X = cumsum(rand(1000,1));
+X = 200*X/max(X);
+f1 = @(x,m,s) exp(-(x-m).^2/(2*s^2))/(s*sqrt(2*pi));
+Y = f1(X,100,5) + f1(X,120,3) - f1(X,30,2);
+
+tol = 0.02*(max(Y)-min(Y)); <span class="comment">% 2% maximum error</span>
+[xi, yi] = reduce_linear_interp1(X,Y,tol); <span class="comment">%#ok&lt;ASGLU&gt;</span>
+</pre><pre class="codeoutput">Original Data Length: 1000
+   Finding reduced number of points maintaining error tolerance...
+   ...Finished!
+Reduced Length: 43
+with maximum absolute error of 0.0061674
+Percentage of original size: 4.3%
+Mean Squared Error: 1.9513e-06
+   Solving QP to minimize SE...
+   ...Finished!
+Percentage of Original Mean Squared Error : 31.727%
+with maximum absolute error of 0.0066432
+</pre><img vspace="5" hspace="5" src="RLI1_examples_07.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_08.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_09.png" alt=""> <h2 id="5">Example 2.2 - gaussian pdf with randomly spaced points and random noise</h2><pre class="codeinput">X = cumsum(rand(1000,1));
+X = 200*X/max(X);
+f1 = @(x,m,s) exp(-(x-m).^2/(2*s^2))/(s*sqrt(2*pi));
+Y = f1(X,100,5) + f1(X,120,3) - f1(X,30,2) + rand(size(X))/200;
+
+tol = 0.02*(max(Y)-min(Y)); <span class="comment">% 2% maximum error</span>
+[xi, yi] = reduce_linear_interp1(X,Y,tol); <span class="comment">%#ok&lt;ASGLU&gt;</span>
+</pre><pre class="codeoutput">Original Data Length: 1000
+   Finding reduced number of points maintaining error tolerance...
+   ...Finished!
+Reduced Length: 47
+with maximum absolute error of 0.0052645
+Percentage of original size: 4.7%
+Mean Squared Error: 3.5922e-06
+   Solving QP to minimize SE...
+   ...Finished!
+Percentage of Original Mean Squared Error : 65.3261%
+with maximum absolute error of 0.0054071
+</pre><img vspace="5" hspace="5" src="RLI1_examples_10.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_11.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_12.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_13.png" alt=""> <h2 id="6">Example 3.1 - digital sine wave with noise</h2><pre class="codeinput">X = linspace(0,8,1000)';
+F = round(15*sin(X));
+Y = F + round(0.55*rand(size(X))) - round(0.55*rand(size(X))) ;
+
+tol = 2;
+[xi, yi] = reduce_linear_interp1(X,Y,tol); <span class="comment">%#ok&lt;ASGLU&gt;</span>
+</pre><pre class="codeoutput">Original Data Length: 1000
+   Finding reduced number of points maintaining error tolerance...
+   ...Finished!
+Reduced Length: 17
+with maximum absolute error of 1.7942
+Percentage of original size: 1.7%
+Mean Squared Error: 0.31186
+   Solving QP to minimize SE...
+   ...Finished!
+Percentage of Original Mean Squared Error : 76.2416%
+with maximum absolute error of 1.558
+</pre><img vspace="5" hspace="5" src="RLI1_examples_14.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_15.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_16.png" alt=""> <h2 id="7">Example 3.2 - sine wave with normal random noise</h2><pre class="codeinput">X = linspace(0,8,1e6)';
+F = 15*sin(X);
+Y = F + randn(size(F))/2;
+
+tol = 2.5;
+opts.post_optflag = 0; <span class="comment">% QP takes is large with 1e6 points</span>
+
+[xi, yi] = reduce_linear_interp1(X,Y,tol,opts);
+
+<span class="comment">% only uncomment if you have MC submission 35194 in your path</span>
+<span class="comment">% warning this will take a long time!!</span>
+<span class="comment">% [xi35194, yi35194, mse35194] = find_best_table_1de(X, Y, [], tol, 'linear');</span>
+</pre><pre class="codeoutput">Original Data Length: 1000000
+   Finding reduced number of points maintaining error tolerance...
+   ...Finished!
+Reduced Length: 83
+with maximum absolute error of 2.4979
+Percentage of original size: 0.0083%
+Mean Squared Error: 0.34957
+</pre><img vspace="5" hspace="5" src="RLI1_examples_17.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_18.png" alt=""> <img vspace="5" hspace="5" src="RLI1_examples_19.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2020a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+% RLI1_examples.m
+% This runs through a number of examples demonstrating the usage of the
+% function reduce_linear_interp1. Please see the documentation for
+% reduce_linear_interp1 for more detail on the inputs. This script has
+% also been published.
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+% Primary contributor: Daniel R. Herber (danielrherber on GitHub)
+% Link: https://github.com/danielrherber/reduce-linear-interp1
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+close all; clear; clc; rng(7312947)
+
+%% Example 1.1 - from MC submission 35194
+X = 0:0.1:10;
+Y = 1./(X/100 + 0.01) + X.^2 - 0.1 * X.^3;
+
+tol = 0.1;
+opts.interior_optflag = true; % this is the default
+opts.post_optflag = true; % this is the default
+opts.display_flag = true; % this is the default
+
+[xi, yi] = reduce_linear_interp1(X,Y,tol,opts); %#ok<ASGLU>
+
+% only uncomment if you have MC submission 35194 in your path
+% [xi35194, yi35194, mse35194] = find_best_table_1de(X, Y, [], tol, 'linear');
+
+%% Example 1.2 - from MC submission 35194 with lower tolerance and more points
+X = 0:0.0001:10;
+Y = 1./(X/100 + 0.01) + X.^2 - 0.1 * X.^3;
+
+% use default options
+[xi, yi] = reduce_linear_interp1(X,Y,0.01); %#ok<ASGLU>
+
+%% Example 2.1 - gaussian pdf with randomly spaced points
+X = cumsum(rand(1000,1));
+X = 200*X/max(X);
+f1 = @(x,m,s) exp(-(x-m).^2/(2*s^2))/(s*sqrt(2*pi));
+Y = f1(X,100,5) + f1(X,120,3) - f1(X,30,2);
+
+tol = 0.02*(max(Y)-min(Y)); % 2% maximum error
+[xi, yi] = reduce_linear_interp1(X,Y,tol); %#ok<ASGLU>
+
+%% Example 2.2 - gaussian pdf with randomly spaced points and random noise
+X = cumsum(rand(1000,1));
+X = 200*X/max(X);
+f1 = @(x,m,s) exp(-(x-m).^2/(2*s^2))/(s*sqrt(2*pi));
+Y = f1(X,100,5) + f1(X,120,3) - f1(X,30,2) + rand(size(X))/200;
+
+tol = 0.02*(max(Y)-min(Y)); % 2% maximum error
+[xi, yi] = reduce_linear_interp1(X,Y,tol); %#ok<ASGLU>
+
+%% Example 3.1 - digital sine wave with noise
+X = linspace(0,8,1000)';
+F = round(15*sin(X));
+Y = F + round(0.55*rand(size(X))) - round(0.55*rand(size(X))) ;
+
+tol = 2;
+[xi, yi] = reduce_linear_interp1(X,Y,tol); %#ok<ASGLU>
+
+%% Example 3.2 - sine wave with normal random noise
+X = linspace(0,8,1e6)';
+F = 15*sin(X);
+Y = F + randn(size(F))/2;
+
+tol = 2.5;
+opts.post_optflag = 0; % QP takes is large with 1e6 points
+
+[xi, yi] = reduce_linear_interp1(X,Y,tol,opts);
+
+% only uncomment if you have MC submission 35194 in your path
+% warning this will take a long time!!
+% [xi35194, yi35194, mse35194] = find_best_table_1de(X, Y, [], tol, 'linear');
+##### SOURCE END #####
+--></body></html>
